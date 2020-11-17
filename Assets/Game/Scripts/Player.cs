@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject laserPrefab;
+    [SerializeField]
+    private GameObject _laserPrefab;
 
     [SerializeField]
-    private float speed = 5.0f;
+    private float _fireRate = 0.25f;
 
-    private float x_bound = 9.5f;
+    private float _canFire = 0.0f;
 
-    private float y_bound = 4.2f;
+    [SerializeField]
+    private float _speed = 5.0f;
+
+    private float _xBound = 9.5f;
+
+    private float _yBound = 4.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +31,9 @@ public class Player : MonoBehaviour
     {
         Movement();
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
         {
-            Instantiate(laserPrefab, transform.position + new Vector3(0,0.88f,0),Quaternion.identity);
+            Shoot();
         }
 
     }
@@ -38,25 +44,36 @@ public class Player : MonoBehaviour
 
         float VerticalInput = Input.GetAxis("Vertical");
 
-        transform.Translate(Vector3.right * speed * horizontalInput * Time.deltaTime);
+        transform.Translate(Vector3.right * _speed * horizontalInput * Time.deltaTime);
 
-        transform.Translate(Vector3.up * speed * VerticalInput * Time.deltaTime);
+        transform.Translate(Vector3.up * _speed * VerticalInput * Time.deltaTime);
 
-        if (transform.position.y > y_bound)
+        if (transform.position.y > _yBound)
         {
-            transform.position = new Vector3(transform.position.x, -y_bound + 0.2f, 0);
+            transform.position = new Vector3(transform.position.x, -_yBound + 0.2f, 0);
         }
-        else if (transform.position.y < -y_bound)
+        else if (transform.position.y < -_yBound)
         {
-            transform.position = new Vector3(transform.position.x, -y_bound, 0);
+            transform.position = new Vector3(transform.position.x, -_yBound, 0);
         }
-        else if (transform.position.x > x_bound)
+        else if (transform.position.x > _xBound)
         {
-            transform.position = new Vector3(-x_bound, transform.position.y, 0);
+            transform.position = new Vector3(-_xBound, transform.position.y, 0);
         }
-        else if (transform.position.x < -x_bound)
+        else if (transform.position.x < -_xBound)
         {
-            transform.position = new Vector3(x_bound, transform.position.y, 0);
+            transform.position = new Vector3(_xBound, transform.position.y, 0);
         }
     }
+
+    private void Shoot()
+    {
+        if (Time.time > _canFire)
+        {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
+            _canFire = Time.time + _fireRate;
+        }
+    }
+
+
 }
