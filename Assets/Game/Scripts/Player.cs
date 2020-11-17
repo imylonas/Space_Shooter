@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool canTripleShoot = false;
+
     [SerializeField]
     private GameObject _laserPrefab;
+
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
 
     [SerializeField]
     private float _fireRate = 0.25f;
@@ -70,9 +75,23 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _canFire)
         {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
+            if (canTripleShoot)
+            {
+                Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
+
+                canTripleShoot = false;
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
+
+                canTripleShoot = true;
+            }
+
             _canFire = Time.time + _fireRate;
+
         }
+
     }
 
 
