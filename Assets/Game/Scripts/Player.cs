@@ -78,14 +78,10 @@ public class Player : MonoBehaviour
             if (canTripleShoot)
             {
                 Instantiate(_tripleLaserPrefab, transform.position, Quaternion.identity);
-
-                canTripleShoot = false;
             }
             else
             {
                 Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.88f, 0), Quaternion.identity);
-
-                canTripleShoot = true;
             }
 
             _canFire = Time.time + _fireRate;
@@ -94,5 +90,17 @@ public class Player : MonoBehaviour
 
     }
 
+    public void TripleShootPowerUpOn()
+    {
+        canTripleShoot = true;
+        StartCoroutine(TripleShootPowerDownRoutine());
+    }
+
+    public IEnumerator TripleShootPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        canTripleShoot = false;
+    }
 
 }
