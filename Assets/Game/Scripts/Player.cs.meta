@@ -4,7 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - _laserPrefab: {instanceID: 0}
+  - _laserPrefab: {fileID: 6287821875448353083, guid: ecde857f3cb761b48b5cc6b9358b5453,
+      type: 3}
+  - _tripleLaserPrefab: {fileID: 2668907945079526965, guid: 58db588f849fc98438b652f5a2ce871d,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
