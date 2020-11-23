@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 
     private float _yBound = 4.2f;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
             _canFire = Time.time + _fireRate;
 
         }
-
+        
     }
 
     public void TripleShootPowerUpOn()
