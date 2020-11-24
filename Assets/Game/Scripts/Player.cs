@@ -6,6 +6,10 @@ public class Player : MonoBehaviour
 {
     public bool canTripleShoot = false;
 
+    public bool canSpeedBoost = false;
+
+    public bool canShield = false;
+
     [SerializeField]
     private GameObject _laserPrefab;
 
@@ -19,6 +23,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float _speed = 5.0f;
+
+    [SerializeField]
+    private float _speedBoost = 15f;
 
     private float _xBound = 9.5f;
 
@@ -52,7 +59,14 @@ public class Player : MonoBehaviour
 
         transform.Translate(Vector3.right * _speed * horizontalInput * Time.deltaTime);
 
-        transform.Translate(Vector3.up * _speed * VerticalInput * Time.deltaTime);
+        if (canSpeedBoost)
+        {
+            transform.Translate(Vector3.up * _speedBoost * _speed * VerticalInput * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector3.up * _speed * VerticalInput * Time.deltaTime);
+        }
 
         if (transform.position.y > _yBound)
         {
@@ -97,6 +111,12 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShootPowerDownRoutine());
     }
 
+    public void SpeedBoostOn()
+    {
+        canSpeedBoost = true;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
     public IEnumerator TripleShootPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
@@ -104,5 +124,11 @@ public class Player : MonoBehaviour
         canTripleShoot = false;
     }
 
+    public IEnumerator SpeedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(10.0f);
+
+        canSpeedBoost = false;
+    }
 
 }
